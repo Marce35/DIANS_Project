@@ -1,11 +1,11 @@
-#DiANS Project
+# DiANS Project
 
-##Legacy Explorer
+## Legacy Explorer
 
-###Colaborators:
+### Colaborators:
 
-####Marko Nedelkovski - 213280
-####Filip Gjorgiev - 216137
-####Davor Georgijev - 213266
-####Marija Stojanoska - 213024
-####Dimitar Chuchanov - 
+#### Marko Nedelkovski - 213280
+#### Filip Gjorgiev - 216137
+#### Davor Georgijev - 213266
+#### Marija Stojanoska - 213024
+#### Dimitar Chuchanov - 211223
