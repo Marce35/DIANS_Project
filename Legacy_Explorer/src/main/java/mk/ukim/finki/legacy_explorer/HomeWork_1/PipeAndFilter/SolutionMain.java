@@ -1,10 +1,11 @@
 package mk.ukim.finki.legacy_explorer.HomeWork_1.PipeAndFilter;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Scanner;
 
-public class Main {
+public class SolutionMain {
     public static String data;
     public static Pipe<String> pipe = new Pipe<>();
 
@@ -15,7 +16,7 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
 
-        ClassLoader loader = Main.class.getClassLoader();
+        ClassLoader loader = SolutionMain.class.getClassLoader();
         Scanner scanner = new Scanner(new File(loader.getResource("database.csv").getFile()));
 
 
@@ -31,5 +32,11 @@ public class Main {
         addFilters();
         data = pipe.runFilters(data);
         System.out.println(data);
+
+        FileWriter writer = new FileWriter("src/main/resources/filtered_database.csv");
+
+        writer.write(data);
+        writer.flush();
+        writer.close();
     }
 }
