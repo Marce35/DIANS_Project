@@ -1,21 +1,24 @@
 package mk.ukim.finki.legacy_explorer.HomeWork_1.PipeAndFilter;
 
 import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Scanner;
 
 public class Main {
     public static String data;
-    public static Pipe<String> pipe;
+    public static Pipe<String> pipe = new Pipe<>();
 
     public static void addFilters() {
-        //pipe.addFilter();
+        pipe.addFilter(new RemoveEmptyColumnsFilter());
+        pipe.addFilter(new CyrillicToLatinConverterFilter());
     }
 
-    public static void main(String[] args) throws FileNotFoundException {
-        String csvFilePath = "path/to/your/file.csv";
+    public static void main(String[] args) throws IOException {
 
-        Scanner scanner = new Scanner(new File(csvFilePath));
+        ClassLoader loader = Main.class.getClassLoader();
+        Scanner scanner = new Scanner(new File(loader.getResource("database.csv").getFile()));
+
+
         StringBuilder csvData = new StringBuilder();
 
         while (scanner.hasNextLine()) {
@@ -24,7 +27,9 @@ public class Main {
         }
 
         data = csvData.toString();
+
         addFilters();
-        pipe.runFilters(data);
+        data = pipe.runFilters(data);
+        System.out.println(data);
     }
 }
