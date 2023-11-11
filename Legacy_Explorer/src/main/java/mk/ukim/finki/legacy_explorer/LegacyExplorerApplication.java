@@ -9,5 +9,4 @@ public class LegacyExplorerApplication {
     public static void main(String[] args) {
         SpringApplication.run(LegacyExplorerApplication.class, args);
     }
-
 }
