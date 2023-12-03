@@ -1,7 +1,6 @@
 package com.example.prototypemodule.web.controller;
 
 
-import com.example.prototypemodule.model.HeritageSite;
 import com.example.prototypemodule.model.enumerations.HeritageType;
 import com.example.prototypemodule.service.AuxiliaryService;
 import com.example.prototypemodule.service.HeritageSiteService;

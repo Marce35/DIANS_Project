@@ -5,7 +5,6 @@ import com.example.prototypemodule.model.HeritageSite;
 import com.example.prototypemodule.model.enumerations.HeritageType;
 import org.springframework.stereotype.Repository;
 
-import javax.xml.crypto.Data;
 import java.util.List;
 import java.util.stream.Collectors;
 

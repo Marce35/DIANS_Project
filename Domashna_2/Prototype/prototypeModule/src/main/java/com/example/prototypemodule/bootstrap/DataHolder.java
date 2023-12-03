@@ -4,7 +4,6 @@ import com.example.prototypemodule.model.HeritageSite;
 import com.example.prototypemodule.model.enumerations.HeritageType;
 import com.example.prototypemodule.model.helperClasses.Location;
 import jakarta.annotation.PostConstruct;
-import lombok.Getter;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;

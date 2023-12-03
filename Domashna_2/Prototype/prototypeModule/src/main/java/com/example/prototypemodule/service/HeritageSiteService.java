@@ -2,7 +2,6 @@ package com.example.prototypemodule.service;
 
 import com.example.prototypemodule.model.HeritageSite;
 import com.example.prototypemodule.model.enumerations.HeritageType;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
