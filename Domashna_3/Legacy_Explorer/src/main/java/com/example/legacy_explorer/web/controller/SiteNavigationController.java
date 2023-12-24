@@ -62,9 +62,14 @@ public class SiteNavigationController {
         if(type != null && !type.isEmpty()){
             HeritageType pickedType = heritageSiteService.mapStringToHeritageType(type);
             model.addAttribute("heritageSites", heritageSiteService.listSitesByType(pickedType));
-            model.addAttribute("searchedType", type);
+            if(heritageSiteService.listSitesByType(pickedType).isEmpty()){
+                model.addAttribute("searchedType", "Invalid type: " + type);
+            }else{
+                model.addAttribute("searchedType", type);
+            }
         }else{
             model.addAttribute("heritageSites", heritageSiteService.listAll());
+            model.addAttribute("searchedType", "All lists");
         }
         model.addAttribute("bodyContent", "list-sites");
         return "master-template";
