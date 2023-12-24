@@ -20,40 +20,54 @@
     </style>
 </head>
 <body>
-<div id="filterSelection" class="row justify-content-center">
-    <div class="col-md-3">
-        <form action="/home" method="GET">
+
+<form id="filterForm" action="/home" method="GET">
+    <div id="filterSelection" class="row justify-content-center">
+        <div class="col-md-3">
             <div class="form-group">
                 <label for="citySelect">Choose City</label>
                 <select name="cities" id="citySelect" class="form-control">
-                    <option th:selected="${cityItem}" th:each="cityItem : ${cities}"  th:value="${cityItem}" th:text="${cityItem} "></option>
+                    <option value="" selected disabled hidden>Choose City</option>
+                    <option th:each="cityItem : ${cities}" th:value="${cityItem}" th:text="${cityItem}"></option>
                 </select>
             </div>
-        </form>
-    </div>
-    <div class="col-md-3">
-        <form action="/home" method="GET">
+        </div>
+        <div class="col-md-3">
             <div class="form-group">
                 <label for="typeSelect">Choose Heritage site type:</label>
                 <select name="types" id="typeSelect" class="form-control">
-                    <option th:selected="${typeItem}" th:each="typeItem : ${types}" th:value="${typeItem}" th:text="${typeItem}"></option>
+                    <option value="" selected disabled hidden>Choose Heritage Site Type</option>
+                    <option th:each="typeItem : ${types}" th:value="${typeItem}" th:text="${typeItem}"></option>
                 </select>
             </div>
-        </form>
-    </div>
-</div>
-<div id="applyFiltersSection" class="row justify-content-center">
-    <form action="/home" method="GET">
-        <div class="form-group">
-            <button type="submit" class="btn btn-primary">Apply Filters</button>
         </div>
-    </form>
-</div>
+    </div>
+    <div id="applyFiltersSection" class="row justify-content-center">
+        <div class="form-group">
+            <button type="button" id="applyFiltersButton" class="btn btn-primary">Apply Filters</button>
+            <button type="button" id="clearFiltersButton" class="btn btn-secondary">Clear Filters</button>
+        </div>
+    </div>
+</form>
+
+
+
+
 <div id="map"></div>
+</body>
+</html>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
 
 <script>
     // Initialize the map
-    var map = L.map('map').setView([41.9936657, 21.4428736], 15); // setView([latitude, longitude], zoom)
+    var map = L.map('map').setView([41.709666, 21.773135], 8); // setView([latitude, longitude], zoom)
 
     // Add a tile layer (you can use different tile providers)
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -61,8 +75,114 @@
     }).addTo(map);
 
 
+    document.addEventListener("DOMContentLoaded", function() {
+        if ($("#citySelect").val() === null && $("#typeSelect").val() === null) {
+            applyFilters(); // Call applyFilters() with null parameters to show all Heritage sites
+        }
+        document.getElementById("applyFiltersButton").addEventListener("click", applyFilters);
+    });
 
+
+    function applyFilters() {
+        var cityValue = $("#citySelect").val() || null;
+        var typeValue = $("#typeSelect").val() || null;
+
+        $.ajax({
+            url: '/api/home/filteredSites',
+            method: 'GET',
+            data: { city: cityValue, type: typeValue },
+            success: function(filteredSites) {
+                console.log("Filtered Sites: ", filteredSites);
+                clearMarkers(); // Clear existing markers
+
+                if (filteredSites.length === 0) {
+                    // Display a popup message indicating no data is available
+                    displayNoDataMessage(cityValue, typeValue);
+                } else {
+                    addMarkersToMap(filteredSites); // Add new markers
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error('Error fetching data:', error);
+            }
+        });
+
+        $("#citySelect").val(cityValue);
+        $("#typeSelect").val(typeValue);
+    }
+
+    function addMarkersToMap(sites) {
+        sites.forEach(function(site) {
+            if (site.coordinates && site.coordinates.x !== undefined && site.coordinates.y !== undefined) {
+                var marker = L.marker([site.coordinates.x, site.coordinates.y])
+                    .bindPopup(
+                        `<div class='text-center p-1'>
+                        <div>${site.name}</div></br>
+                        <div>${site.type}</div></br>
+                        <div>${site.street}</div></br>
+                        <button type='button' class='btn btn-primary btn-go'
+                                onclick='getDirections(this)'
+                                data-lat='${site.coordinates.x}'
+                                data-lng='${site.coordinates.y}'>Get Directions</button>
+                    </div>`
+                    )
+                    .addTo(map);
+            } else {
+                console.error("Invalid coordinates for site:", site);
+            }
+        });
+    }
+
+
+    function clearMarkers() {
+        map.eachLayer(function(layer) {
+            if (layer instanceof L.Marker) {
+                map.removeLayer(layer);
+            }
+        });
+    }
+
+    document.getElementById("clearFiltersButton").addEventListener("click", clearFilters);
+    function clearFilters() {
+        // Set the select options to their default values (empty strings)
+        $("#citySelect").val('');
+        $("#typeSelect").val('');
+
+        // Trigger the applyFilters function to reset and show all Heritage sites
+        applyFilters();
+    }
+
+
+    function displayNoDataMessage(city, type) {
+        var message = "No data available for ";
+        if (type) {
+            message += type + " in ";
+        }
+        message += city;
+
+        alert(message);
+        clearFilters();
+    }
+
+    function getDirections(element) {
+        var markerElement = element.parentNode;
+        var buttonElement = markerElement.children[6];
+        var name = markerElement.children[0].innerText;
+        var latitude = parseFloat(buttonElement.getAttribute('data-lat'));
+        var longitude = parseFloat(buttonElement.getAttribute('data-lng'));
+
+        // Check if latitude and longitude are valid numbers
+        if (!isNaN(latitude) && !isNaN(longitude)) {
+            // Confirm with the user before redirecting to Google Maps
+            var confirmation = confirm(`Do you want directions to ${name}?`);
+            if (confirmation) {
+                // Redirect the user to Google Maps with directions to the given coordinates
+                var googleMapsUrl = `https://www.google.com/maps/dir/?api=1&destination=${latitude},${longitude}`;
+                window.open(googleMapsUrl);
+            }
+        } else {
+            console.error('Invalid latitude or longitude values');
+        }
+    }
 
 </script>
-</body>
-</html>

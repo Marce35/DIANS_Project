@@ -1,8 +1,10 @@
 package com.example.legacy_explorer.web.controller;
 
+import com.example.legacy_explorer.model.HeritageSite;
 import com.example.legacy_explorer.model.enumerations.HeritageType;
 import com.example.legacy_explorer.service.AuxiliaryService;
 import com.example.legacy_explorer.service.HeritageSiteService;
+import com.google.gson.Gson;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,13 +25,34 @@ public class SiteNavigationController {
     }
 
     @GetMapping()
-    public String getMapPage(Model model){
+    public String getMapPage(@RequestParam(required = false) String city,
+                             @RequestParam(required = false) String type,
+                             Model model){
         List<String> cities = auxiliaryService.getAllCities();
         List<HeritageType> types = auxiliaryService.getAllTypes();
         List<String> convertedTypes = auxiliaryService.mapHeritageTypesToStrings(types);
 
+        List<HeritageSite> filteredSites;
+
+        if(city != null && type != null){
+            HeritageType pickedType = heritageSiteService.mapStringToHeritageType(type);
+            filteredSites = heritageSiteService.listSitesByCityAndType(pickedType, city);
+        }else if(city != null){
+            filteredSites = heritageSiteService.listSitesByCity(city);
+        }else if(type != null){
+            HeritageType pickedType = heritageSiteService.mapStringToHeritageType(type);
+            filteredSites = heritageSiteService.listSitesByType(pickedType);
+        }else{
+            filteredSites = heritageSiteService.listAll();
+        }
+
         model.addAttribute("cities", cities);
         model.addAttribute("types", convertedTypes);
+        model.addAttribute("filteredSites", filteredSites); //Add filtered sites
+
+        // Convert filteredSites to JSON and pass it to the model as a string
+        model.addAttribute("filteredSitesJSON", new Gson().toJson(filteredSites));
+
         model.addAttribute("bodyContent", "map-page");
         return "master-template";
     }
