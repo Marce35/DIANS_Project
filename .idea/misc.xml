@@ -6,6 +6,10 @@
       <list>
         <option value="$PROJECT_DIR$/demo/pom.xml" />
         <option value="$PROJECT_DIR$/Legacy_Explorer/pom.xml" />
+        <option value="$PROJECT_DIR$/Domashna_4/docker-microservices/pom.xml" />
+        <option value="$PROJECT_DIR$/Domashna_4/docker-microservices/backend-service/pom.xml" />
+        <option value="$PROJECT_DIR$/Domashna_4/docker-microservices/frontend-service/pom.xml" />
+        <option value="$PROJECT_DIR$/Domashna_4/docker-microservices/registry-service/pom.xml" />
       </list>
     </option>
   </component>
