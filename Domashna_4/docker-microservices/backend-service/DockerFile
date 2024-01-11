@@ -1,0 +1,5 @@
+FROM openjdk:13
+ADD target/backend-service.jar backend-service.jar
+ADD src/main/resources/filtered_database.csv /var/lib/docker/volumes/myapp/_data
+EXPOSE 9091
+ENTRYPOINT ["java", "-jar", "backend-service.jar"]

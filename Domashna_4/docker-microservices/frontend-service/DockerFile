@@ -1,0 +1,4 @@
+FROM openjdk:13
+ADD target/frontend-service.jar frontend-service.jar
+EXPOSE 8080
+ENTRYPOINT ["java", "-jar", "frontend-service.jar"]

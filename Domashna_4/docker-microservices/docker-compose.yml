@@ -1,0 +1,30 @@
+version: '3.8'
+services:
+  registry-service:
+    image: registry-service.jar
+    ports:
+      - 8761:8761
+  backend-service:
+    image: backend-service.jar
+    environment:
+      - JAVA_OPTS=
+        -DEUREKA_SERVER=http://registry-service:8761/eureka
+    depends_on:
+      - registry-service
+    ports:
+      - 9091:9091
+    volumes:
+      - myapp:/home/data/
+  frontend-service:
+    image: frontend-service.jar
+    environment:
+      - JAVA_OPTS=
+        -DEUREKA_SERVER=http://registry-service:8761/eureka
+    depends_on:
+      - registry-service
+      - backend-service
+    ports:
+      - 8080:8080
+volumes:
+  myapp:
+    external: true

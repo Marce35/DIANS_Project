@@ -3,5 +3,9 @@
   <component name="Encoding">
     <file url="file://$PROJECT_DIR$/Domashna_3/Legacy_Explorer/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/Domashna_3/demo/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Domashna_4/docker-microservices/backend-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Domashna_4/docker-microservices/frontend-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Domashna_4/docker-microservices/registry-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Domashna_4/docker-microservices/src/main/java" charset="UTF-8" />
   </component>
 </project>

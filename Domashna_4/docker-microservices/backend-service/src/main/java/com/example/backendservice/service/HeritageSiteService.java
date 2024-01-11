@@ -1,0 +1,22 @@
+package com.example.backendservice.service;
+
+
+import com.example.backendservice.model.HeritageSite;
+import com.example.backendservice.model.enumerations.HeritageType;
+import com.example.backendservice.model.exceptions.InvalidSiteTypeException;
+
+import java.util.List;
+
+
+public interface HeritageSiteService {
+    List<HeritageSite> listAll();
+
+    List<HeritageSite> listSitesByType(HeritageType type);
+    List<HeritageSite> listSitesByCity(String city);
+    List<HeritageSite> listSitesByCitiesAndTypes(List<HeritageType> types, List<String> cities);
+    List<HeritageSite> listSitesByCityAndType(HeritageType type, String city);
+
+    HeritageType mapStringToHeritageType(String type) throws InvalidSiteTypeException;
+    List<HeritageType> mapStringsToHeritageTypes(List<String> types);
+
+}

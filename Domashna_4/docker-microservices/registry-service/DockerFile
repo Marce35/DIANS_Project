@@ -1,0 +1,4 @@
+FROM openjdk:13
+ADD target/registry-service.jar registry-service.jar
+EXPOSE 8761
+ENTRYPOINT ["java", "-jar", "registry-service.jar"]
