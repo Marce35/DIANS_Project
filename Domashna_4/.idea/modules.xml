@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/Domashna_4.iml" filepath="$PROJECT_DIR$/.idea/Domashna_4.iml" />
+      <module fileurl="file://$PROJECT_DIR$/backend-service/backend-service.iml" filepath="$PROJECT_DIR$/backend-service/backend-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/frontend-service/frontend-service.iml" filepath="$PROJECT_DIR$/frontend-service/frontend-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/registry-service/registry-service.iml" filepath="$PROJECT_DIR$/registry-service/registry-service.iml" />
+    </modules>
+  </component>
+</project>
