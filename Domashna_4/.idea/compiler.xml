@@ -12,11 +12,6 @@
         <module name="registry-service" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="backend-service" target="19" />
-      <module name="frontend-service" target="19" />
-      <module name="registry-service" target="19" />
-    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">

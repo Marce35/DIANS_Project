@@ -19,7 +19,7 @@ import java.util.Collections;
 import java.util.List;
 
 @Controller
-@RequestMapping("/home")
+@RequestMapping(value = {"/home", "/"})
 public class MainController {
     private final RestTemplate restTemplate;
     private final String backendBaseUrl;
@@ -32,7 +32,7 @@ public class MainController {
     @GetMapping()
     public String getMapPage(@RequestParam(required = false) String city,
                              @RequestParam(required = false) String type,
-                             Model model){
+                             Model model) {
         // Fetch cities and handle errors
         List<String> cities = fetchCitiesFromBackend(model);
 
@@ -102,7 +102,7 @@ public class MainController {
     }
 
     @GetMapping("/heritageSites")
-    public String getSitesByType(@RequestParam(required = false) String type, Model model){
+    public String getSitesByType(@RequestParam(required = false) String type, Model model) {
         try {
             List<HeritageSite> heritageSites;
             if (type != null && !type.isEmpty()) {
@@ -123,9 +123,9 @@ public class MainController {
 
             model.addAttribute("heritageSites", heritageSites);
 
-            if(type == null || type.isEmpty()){
+            if (type == null || type.isEmpty()) {
                 model.addAttribute("searchedType", "All Heritage Sites");
-            }else{
+            } else {
                 model.addAttribute("searchedType", type);
             }
 
