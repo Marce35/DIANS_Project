@@ -1,0 +1,27 @@
+version: '3.3'
+services:
+  registry:
+    image: registry-service:latest
+    ports:
+      - '8761:8761'
+  backend-service:
+    image: backend-service:latest
+    environment:
+      - eureka.client.serviceUrl.defaultZone=http://registry:8761/eureka/
+    depends_on:
+      - registry
+    links:
+      - registry
+    ports:
+      - '9090:9090'
+  frontend-service:
+    image: frontend-service:latest
+    environment:
+      - eureka.client.serviceUrl.defaultZone=http://registry:8761/eureka/
+    depends_on:
+      - registry
+      - backend-service
+    links:
+      - registry
+    ports:
+      - '8080:8080'
