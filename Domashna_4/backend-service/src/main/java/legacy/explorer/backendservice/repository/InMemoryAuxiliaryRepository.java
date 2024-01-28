@@ -12,6 +12,10 @@ import java.util.stream.Collectors;
 
 @Repository
 public class InMemoryAuxiliaryRepository {
+    /**
+     * returns the list of all the cities in the database
+     * @return
+     */
     public List<String> getCities(){
         List<String> allCities = DataHolder.heritageSiteList.stream()
                 .map(HeritageSite::getCity)
@@ -24,6 +28,10 @@ public class InMemoryAuxiliaryRepository {
         return sortedCities;
     }
 
+    /**
+     * returns the list of all the types in the database
+     * @return
+     */
     public List<HeritageType> getTypes(){
         List<HeritageType> allTypes = DataHolder.heritageSiteList.stream()
                 .map(HeritageSite::getType)

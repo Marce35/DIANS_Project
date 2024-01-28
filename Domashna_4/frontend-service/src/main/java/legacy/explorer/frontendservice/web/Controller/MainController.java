@@ -29,6 +29,13 @@ public class MainController {
         this.backendBaseUrl = backEndProperties.getBaseUrl();
     }
 
+    /**
+     *
+     * @param city
+     * @param type
+     * @param model
+     * @return the map page
+     */
     @GetMapping()
     public String getMapPage(@RequestParam(required = false) String city,
                              @RequestParam(required = false) String type,
@@ -47,6 +54,11 @@ public class MainController {
         return "master-template";
     }
 
+    /**
+     *
+     * @param model
+     * @return the cities using the back api
+     */
     private List<String> fetchCitiesFromBackend(Model model) {
         try {
             ResponseEntity<List<String>> responseEntity = restTemplate.exchange(
@@ -73,6 +85,12 @@ public class MainController {
             return Collections.emptyList();
         }
     }
+
+    /**
+     *
+     * @param model
+     * @return the types using the back api
+     */
 
     private List<String> fetchHeritageTypesFromBackend(Model model) {
         try {
@@ -101,6 +119,12 @@ public class MainController {
         }
     }
 
+    /**
+     *
+     * @param type
+     * @param model
+     * @return the cities by type from the backend
+     */
     @GetMapping("/heritageSites")
     public String getSitesByType(@RequestParam(required = false) String type, Model model) {
         try {

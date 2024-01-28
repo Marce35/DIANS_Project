@@ -29,6 +29,12 @@ public class BridgeController {
         this.backendBaseUrl = BackEndProperties.getBaseUrl();
     }
 
+    /**
+     *
+     * @param city
+     * @param type
+     * @return ResponseEntity of the filtered sites
+     */
     @GetMapping("/filtered-sites")
     @ResponseBody
     public ResponseEntity<List<HeritageSite>> getFilteredSites(
